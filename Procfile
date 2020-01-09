@@ -1,1 +1,1 @@
-web: python3 -m naomi-bot
+web: python3 -m naomi_bot

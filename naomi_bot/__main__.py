@@ -16,13 +16,14 @@ async def issue_opened_event(event, gh, *args, **kwargs):
   """ Whenever an issue is opened, open another one in a different repo"""
   # url = event.data["issue"]["comments_url"]
   ## Hardcode the URL eventually this will be hintr
-  update_branch("test", "test_branch")
+  naomi_branch = "v0.0.50"
+  update_branch(gh, "/repos/r-ash/ws-install", naomi_branch)
   url = "/repos/r-ash/ws-install/pulls"
   data = {
     "title": "Test issue",
     "body": "Test issue created by a bot",
     "head": "test-branch",
-    "base": "master"
+    "base": "naomi_branch"
   }
   await gh.post(url, data=data)
 

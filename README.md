@@ -1,3 +1,3 @@
-# naomi-bot
+# naomi_bot
 
 A bot for creating hintr PRs from naomi PRs
