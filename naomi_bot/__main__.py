@@ -6,7 +6,7 @@ from aiohttp import web
 
 from gidgethub import routing, sansio
 from gidgethub import aiohttp as gh_aiohttp
-from update_branch import update_branch
+from .update_branch import update_branch
 
 router = routing.Router()
 routes = web.RouteTableDef()
