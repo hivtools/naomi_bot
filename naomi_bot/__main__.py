@@ -17,7 +17,7 @@ async def issue_opened_event(event, gh, *args, **kwargs):
   # url = event.data["issue"]["comments_url"]
   ## Hardcode the URL eventually this will be hintr
   naomi_branch = "v0.0.50"
-  update_branch(gh, "/repos/r-ash/ws-install", naomi_branch)
+  await update_branch(gh, "/repos/r-ash/ws-install", naomi_branch)
   url = "/repos/r-ash/ws-install/pulls"
   data = {
     "title": "Test issue",
@@ -46,8 +46,20 @@ async def main(request):
     # call the appropriate callback for the event
     await router.dispatch(event, gh)
 
+  naomi_branch = "v0.0.50"
+  await update_branch(gh, "/repos/r-ash/ws-install", naomi_branch)
   # return a "Success"
   return web.Response(status=200)
+  
+@routes.get("/")
+async def test(request):
+  oauth_token = os.environ.get("GH_AUTH")
+  async with aiohttp.ClientSession() as session:
+    gh = gh_aiohttp.GitHubAPI(session, "r-ash",
+                              oauth_token=oauth_token)
+    naomi_branch = "v0.0.50"
+    await update_branch(gh, "/repos/r-ash/ws-install", naomi_branch)
+  return web.Response(status=200, text="Hello")
 
 
 if __name__ == "__main__":
