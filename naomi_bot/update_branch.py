@@ -1,5 +1,4 @@
-import tempfile
-from git import Repo
+
 
 def update_branch(gh, repo_url, naomi_branch):
   ## Clone the repo
@@ -15,10 +14,10 @@ def update_branch(gh, repo_url, naomi_branch):
   content = readme["content"] + "test edit readme"
 
   gh.put(repo_url + "/contents/README.md", data = {
-    "message" = "Update README",
-    "content" = content,
-    "sha" = readme["sha"],
-    "branch" = "naomi " + naomi_branch
+    "message": "Update README",
+    "content": content,
+    "sha": readme["sha"],
+    "branch": "naomi " + naomi_branch
   })
  
-  return("updating version {} branch {}".format(naomi_version, naomi_branch))
+  return("updating URL {} branch {}".format(repo_url, naomi_branch))
