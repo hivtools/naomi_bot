@@ -16,6 +16,30 @@ def test_get_version_number():
   with pytest.raises(Exception):
     version.get_version_number("test")
 
+  description_text = """
+  Package: aoc
+  Title: Advent of code with Rcpp
+  Version: 0.0.2 
+  Authors@R: 
+      person(given = "Robert",
+             family = "Ashton",
+             role = c("aut", "cre"),
+             email = "r.ashton@imperial.ac.uk")
+  Description: Solves Advent of Code puzzles using Rcpp
+  License: MIT + file LICENSE
+  Encoding: UTF-8
+  LazyData: true
+  Suggests: 
+      testthat
+  Roxygen: list(markdown = TRUE)
+  RoxygenNote: 6.1.1
+  LinkingTo: 
+      Rcpp
+  Imports: 
+      Rcpp
+  """
+  assert version.get_version_number(description_text) == "0.0.2"
+
 def test_update_naomi_version():
   description_text = """
   Package: naomi

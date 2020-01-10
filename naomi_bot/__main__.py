@@ -22,7 +22,12 @@ async def new_pr_event(event, gh, *args, **kwargs):
   naomi_branch = event.data["pull_request"]["head"]["ref"]
   print("Responding to new PR for branch" + naomi_branch)
   
-  description = await gh.getitem(repo_url + "/contents/DESCRIPTION")
+  description = await gh.getitem(
+    event.data["pull_request"]["head"]["repo"]["url"] + "/contents/DESCRIPTION", 
+    data = {
+      "ref": naomi_branch
+    }
+  )
   description_text = text_from_base64(description["content"])
   version_number = get_version_number(description_text)
   new_branch = "naomi-" + version_number
@@ -32,8 +37,8 @@ async def new_pr_event(event, gh, *args, **kwargs):
   # Create pull request
   new_pr = await gh.post(repo_url + "/pulls", data = {
     "title": new_branch,
-    "body": "Automatically created PR from new naomi PR " + 
-      event.data["pull_request"]["title"] + "\n" + event.data["pull_request"]["html_url"],
+    "body": 'Automatically created PR from new naomi PR "' + 
+      event.data["pull_request"]["title"] + '" - ' + event.data["pull_request"]["html_url"],
     "head": new_branch,
     "base": "master"
   })
