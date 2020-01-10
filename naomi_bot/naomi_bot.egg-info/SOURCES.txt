@@ -1,5 +1,0 @@
-setup.py
-naomi_bot.egg-info/PKG-INFO
-naomi_bot.egg-info/SOURCES.txt
-naomi_bot.egg-info/dependency_links.txt
-naomi_bot.egg-info/top_level.txt
