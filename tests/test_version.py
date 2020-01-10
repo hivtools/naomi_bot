@@ -1,6 +1,6 @@
 import pytest
 
-from naomi_bot import version
+from naomi_bot.app import version
 
 def test_get_version_number():
   description_text = """
