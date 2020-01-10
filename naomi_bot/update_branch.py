@@ -34,8 +34,8 @@ async def update_branch(gh, repo_url, naomi_version, naomi_branch, hintr_new_bra
   ## Make code change
   # Update DESCRIPTION - naomi and hintr version?
   description = await gh.getitem(repo_url + "/contents/DESCRIPTION")
-  desc_text = text_from_base64(readme["content"])
-  new_desc = update_naomi_version(desc_text)
+  desc_text = text_from_base64(description["content"])
+  new_desc = update_naomi_version(desc_text, naomi_version)
   await gh.put(repo_url + "/contents/DESCRIPTION", data = {
     "message": "Update naomi version in DESCRIPTION",
     "content": text_to_base64(new_desc),
@@ -45,8 +45,8 @@ async def update_branch(gh, repo_url, naomi_version, naomi_branch, hintr_new_bra
 
   # Update .travis.yml
   travis = await gh.getitem(repo_url + "/contents/.travis.yml")
-  travis_text = text_from_base64(readme["content"])
-  new_travis = update_travis(travis_text)
+  travis_text = text_from_base64(travis["content"])
+  new_travis = update_travis(travis_text, naomi_branch)
   await gh.put(repo_url + "/contents/.travis.yml", data = {
     "message": "Update naomi version in .travis.yml",
     "content": text_to_base64(new_travis),
@@ -56,8 +56,8 @@ async def update_branch(gh, repo_url, naomi_version, naomi_branch, hintr_new_bra
 
   # Update docker build
   docker = await gh.getitem(repo_url + "/contents/docker/build")
-  docker_text = text_from_base64(readme["content"])
-  new_docker = update_docker_build(docker_text)
+  docker_text = text_from_base64(docker["content"])
+  new_docker = update_docker_build(docker_text, naomi_branch)
   await gh.put(repo_url + "/contents/docker/build", data = {
     "message": "Update naomi version in docker build",
     "content": text_to_base64(new_docker),

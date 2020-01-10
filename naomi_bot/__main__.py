@@ -30,7 +30,7 @@ async def new_pr_event(event, gh, *args, **kwargs):
   await update_branch(gh, repo_url, version_number, naomi_branch, new_branch)
 
   # Create pull request
-  await gh.post(repo_url + "/pulls", data={
+  new_pr = await gh.post(repo_url + "/pulls", data = {
     "title": "Test issue",
     "body": "Test issue created by a bot",
     "head": "test-branch",
@@ -38,6 +38,10 @@ async def new_pr_event(event, gh, *args, **kwargs):
   })
 
   # Post link to new PR in a comment
+  await gh.post(event.data["pull_request"]["comments_url"], data = {
+    "body": "Thanks. Corresponding hintr PR at " + new_pr["url"]
+  })
+
 
 @routes.post("/")
 async def main(request):
@@ -68,8 +72,10 @@ async def test(request):
   async with aiohttp.ClientSession() as session:
     gh = gh_aiohttp.GitHubAPI(session, "r-ash",
                               oauth_token=oauth_token)
-    naomi_branch = "v0.0.50"
-    await update_branch(gh, "/repos/r-ash/ws-install", naomi_branch)
+    naomi_branch = "new-branch"
+    version_number = "0.0.50.1"
+    new_branch = "naomi-" + version_number
+    await update_branch(gh, "/repos/r-ash/ws-install", version_number, naomi_branch, new_branch)
   return web.Response(status=200, text="Hello")
 
 
