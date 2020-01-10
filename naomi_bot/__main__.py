@@ -7,7 +7,8 @@ from aiohttp import web
 from gidgethub import routing, sansio
 from gidgethub import aiohttp as gh_aiohttp
 from .update_branch import update_branch
-from .description import get_version_number
+from .version import get_version_number
+from .utils import text_from_base64
 
 router = routing.Router()
 routes = web.RouteTableDef()
@@ -20,12 +21,13 @@ async def new_pr_event(event, gh, *args, **kwargs):
   repo_url = "/repos/r-ash/ws-install"
   naomi_branch = event["pull_request"]["head"]["ref"]
   print(naomi_branch)
-  # TODO: Use version number for new branch name not the naomi_branch name
+  
   description = await gh.getitem(repo_url + "/contents/DESCRIPTION")
-  description_text = bytes.decode(base64.b64decode(readme["content"]))
+  description_text = text_from_base64(description["content"])
   version_number = get_version_number(description_text)
-  new_branch = "naomi-" + naomi_branch
-  await update_branch(gh, repo_url, naomi_branch, new_branch)
+  new_branch = "naomi-" + version_number
+
+  await update_branch(gh, repo_url, version_number, naomi_branch, new_branch)
 
   # Create pull request
   await gh.post(repo_url + "/pulls", data={
@@ -34,6 +36,8 @@ async def new_pr_event(event, gh, *args, **kwargs):
     "head": "test-branch",
     "base": new_branch
   })
+
+  # Post link to new PR in a comment
 
 @routes.post("/")
 async def main(request):
