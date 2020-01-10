@@ -6,6 +6,9 @@ from .version import update_travis
 from .version import update_docker_build
 
 async def update_branch(gh, repo_url, naomi_version, naomi_branch, hintr_new_branch):
+  print("Creating new hintr branch " + hintr_new_branch + 
+    " for update naomi version " + naomi_version +
+    " on branch " + naomi_branch)
   ## Create new branch
   # Get master reference
   master = await gh.getitem(repo_url + "/git/ref/heads/master")

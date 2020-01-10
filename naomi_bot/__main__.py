@@ -20,7 +20,7 @@ async def new_pr_event(event, gh, *args, **kwargs):
   # Hardcode the URL eventually this will be hintr
   repo_url = "/repos/r-ash/ws-install"
   naomi_branch = event.data["pull_request"]["head"]["ref"]
-  print(naomi_branch)
+  print("Responding to new PR for branch" + naomi_branch)
   
   description = await gh.getitem(repo_url + "/contents/DESCRIPTION")
   description_text = text_from_base64(description["content"])
@@ -31,10 +31,11 @@ async def new_pr_event(event, gh, *args, **kwargs):
 
   # Create pull request
   new_pr = await gh.post(repo_url + "/pulls", data = {
-    "title": "Test issue",
-    "body": "Test issue created by a bot",
-    "head": "test-branch",
-    "base": new_branch
+    "title": new_branch,
+    "body": "Automatically created PR from new naomi PR " + 
+      event.data["pull_request"]["title"] + "\n" + event.data["pull_request"]["html_url"],
+    "head": new_branch,
+    "base": "master"
   })
 
   # Post link to new PR in a comment
