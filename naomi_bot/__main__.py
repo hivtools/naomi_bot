@@ -45,7 +45,7 @@ async def new_pr_event(event, gh, *args, **kwargs):
 
   # Post link to new PR in a comment
   await gh.post(event.data["pull_request"]["comments_url"], data = {
-    "body": "Thanks. Corresponding hintr PR at " + new_pr["url"]
+    "body": "Thanks. Corresponding hintr PR at " + new_pr["html_url"]
   })
 
 
