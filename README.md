@@ -18,6 +18,10 @@ The intention is that this will trigger builds for hintr, if the build passes we
 
 At the moment this is deployed on heroku and is posting with @r-ash personal account - we should update that.
 
+## Secrets
+
+This is using secrets stored on my local machine to run at the moment - we should move them into vault.
+
 ## Tests
 
 There is pretty minimal testing of this at the moment but tests can be run by running `pytest` from the repository root.
