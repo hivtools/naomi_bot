@@ -20,11 +20,11 @@ async def new_pr_event(event, gh, *args, **kwargs):
   # Hardcode the URL eventually this will be hintr
   repo_url = "/repos/r-ash/ws-install"
   naomi_branch = event.data["pull_request"]["head"]["ref"]
-  print("Responding to new PR for branch" + naomi_branch)
+  print("Handling new PR for naomi branch " + naomi_branch)
   
   description = await gh.getitem(
     event.data["pull_request"]["head"]["repo"]["url"] + "/contents/DESCRIPTION", 
-    data = {
+    url_vars = {
       "ref": naomi_branch
     }
   )
