@@ -22,11 +22,8 @@ async def new_pr_event(event, gh, *args, **kwargs):
   naomi_branch = event.data["pull_request"]["head"]["ref"]
   print("Handling new PR for naomi branch " + naomi_branch)
   
-  description = await gh.getitem(
-    event.data["pull_request"]["head"]["repo"]["url"] + "/contents/DESCRIPTION", 
-    url_vars = {
-      "ref": naomi_branch
-    }
+  description = await gh.getitem(event.data["pull_request"]["head"]["repo"]["url"] + 
+    "/contents/DESCRIPTION" + "?ref=" + naomi_branch
   )
   description_text = text_from_base64(description["content"])
   version_number = get_version_number(description_text)
