@@ -1,11 +1,7 @@
 #!/usr/bin/env bash
 set -ex
-
-here=$(dirname $0)
-git_id=$(git rev-parse --short=7 HEAD)
-
-registry=docker.montagu.dide.ic.ac.uk:5000
-name=naomi_bot
+HERE=$(dirname $0)
+. $HERE/common
 
 if [ "$1" = "--use-vault" ]; then
     . $here/vault_auth.sh
@@ -14,4 +10,4 @@ fi
 docker run -d \
     -p 4568:80 \
     --name naomi_bot \
-    $registry/$name:$git_id
+    $REGISTRY/$NAME:$GIT_ID

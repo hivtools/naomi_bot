@@ -72,7 +72,7 @@ async def main(request):
 async def test(request):
   # This GET endpoint isn't called by the bot, just using it for testing
   oauth_token = os.environ.get("GH_AUTH")
-  return web.Response(status=200, text="Hello")
+  return web.Response(status=200, text="Bot running")
 
 
 if __name__ == "__main__":
