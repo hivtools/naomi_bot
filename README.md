@@ -18,6 +18,16 @@ The intention is that this will trigger builds for hintr, if the build passes we
 
 At the moment this is deployed on heroku and is posting with @r-ash personal account - we should update that.
 
+## Running
+
+To run the service locally use the docker image
+
+`docker/run`
+
+You may have to build first, if so
+
+`docker/build`
+
 ## Secrets
 
 This is using secrets stored on my local machine to run at the moment - we should move them into vault.
