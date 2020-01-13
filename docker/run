@@ -12,6 +12,6 @@ if [ "$1" = "--use-vault" ]; then
 fi
 
 docker run -d \
-    -p 4567:80 \
+    -p 4568:80 \
     --name naomi_bot \
     $registry/$name:$git_id

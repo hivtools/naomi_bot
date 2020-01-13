@@ -72,13 +72,6 @@ async def main(request):
 async def test(request):
   # This GET endpoint isn't called by the bot, just using it for testing
   oauth_token = os.environ.get("GH_AUTH")
-  async with aiohttp.ClientSession() as session:
-    gh = gh_aiohttp.GitHubAPI(session, "r-ash",
-                              oauth_token=oauth_token)
-    naomi_branch = "new-branch"
-    version_number = "0.0.50.1"
-    new_branch = "naomi-" + version_number
-    await update_branch(gh, "/repos/r-ash/ws-install", version_number, naomi_branch, new_branch)
   return web.Response(status=200, text="Hello")
 
 
