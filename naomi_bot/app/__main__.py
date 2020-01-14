@@ -15,9 +15,8 @@ routes = web.RouteTableDef()
 @router.register("pull_request", action="opened")
 async def new_pr_event(event, gh, *args, **kwargs):
   """ Whenever a PR is opening in naomi, open corresponding PR in hintr"""
-  # url = event.data["issue"]["comments_url"]
-  # Hardcode the URL eventually this will be hintr
-  repo_url = "/repos/r-ash/ws-install"
+
+  repo_url = "/repos/mrc-ide/hintr"
   naomi_branch = event.data["pull_request"]["head"]["ref"]
   print("Handling new PR for naomi branch " + naomi_branch)
   
@@ -52,7 +51,7 @@ async def main(request):
 
   # our authentication token and secret
   cfg = configparser.ConfigParser()
-  cfg.read("vault_secrets.ini")
+  cfg.read("app/vault_secrets.ini")
   secret = cfg.get("vault_secrets", "HINTR_SECRET")
   oauth_token = cfg.get("vault_secrets", "GH_AUTH_TOKEN")
 
@@ -73,7 +72,7 @@ async def main(request):
 async def test(request):
   # This GET endpoint isn't called by the bot, just using it for testing
   cfg = configparser.ConfigParser()
-  cfg.read("vault_secrets.ini")
+  cfg.read("app/vault_secrets.ini")
   oauth_token = cfg.get("vault_secrets", "GH_AUTH_TOKEN")
   return web.Response(status=200, text="Bot running")
 
