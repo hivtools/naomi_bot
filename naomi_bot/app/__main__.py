@@ -71,9 +71,6 @@ async def main(request):
 @routes.get("/")
 async def test(request):
   # This GET endpoint isn't called by the bot, just using it for testing
-  cfg = configparser.ConfigParser()
-  cfg.read("app/vault_secrets.ini")
-  oauth_token = cfg.get("vault_secrets", "GH_AUTH_TOKEN")
   return web.Response(status=200, text="Bot running")
 
 
