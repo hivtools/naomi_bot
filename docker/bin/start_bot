@@ -1,5 +1,3 @@
 #!/usr/bin/env bash
 
-## SETUP secrets
-
 python3 -m app

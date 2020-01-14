@@ -1,9 +1,8 @@
 import os
-
 import aiohttp
+import configparser
 
 from aiohttp import web
-
 from gidgethub import routing, sansio
 from gidgethub import aiohttp as gh_aiohttp
 from .update_branch import update_branch
@@ -52,8 +51,10 @@ async def main(request):
   body = await request.read()
 
   # our authentication token and secret
-  secret = os.environ.get("GH_SECRET")
-  oauth_token = os.environ.get("GH_AUTH")
+  cfg = configparser.ConfigParser()
+  cfg.read("vault_secrets.ini")
+  secret = cfg.get("vault_secrets", "HINTR_SECRET")
+  oauth_token = cfg.get("vault_secrets", "GH_AUTH_TOKEN")
 
   # a representation of GitHub webhook event
   event = sansio.Event.from_http(request.headers, body, secret=secret)
@@ -71,7 +72,9 @@ async def main(request):
 @routes.get("/")
 async def test(request):
   # This GET endpoint isn't called by the bot, just using it for testing
-  oauth_token = os.environ.get("GH_AUTH")
+  cfg = configparser.ConfigParser()
+  cfg.read("vault_secrets.ini")
+  oauth_token = cfg.get("vault_secrets", "GH_AUTH_TOKEN")
   return web.Response(status=200, text="Bot running")
 
 

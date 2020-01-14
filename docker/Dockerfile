@@ -1,4 +1,4 @@
-FROM tiangolo/uwsgi-nginx-flask:python3.6
+FROM python:3.7-slim-buster
 
 COPY ./docker/requirements-docker.txt requirements.txt
 RUN pip3 install -r requirements.txt

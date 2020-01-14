@@ -4,10 +4,18 @@ HERE=$(dirname $0)
 . $HERE/common
 
 if [ "$1" = "--use-vault" ]; then
-    . $here/vault_auth.sh
+    . $HERE/vault_auth.sh
 fi
 
+## create a tmp file and write secrets out 
+. $HERE/vault_secrets
+
+
 docker run -d \
+    --restart=always \
     -p 4568:80 \
     --name naomi_bot \
     $REGISTRY/$NAME:$GIT_ID
+
+docker cp $HERE/.vault_secrets.ini naomi_bot:/app/vault_secrets.ini
+rm $HERE/.vault_secrets.ini
