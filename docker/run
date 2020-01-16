@@ -3,6 +3,12 @@ set -ex
 HERE=$(dirname $0)
 . $HERE/common
 
+function cleanup {
+    set +e
+    rm $HERE/.vault_secrets.ini -f
+}
+trap cleanup EXIT
+
 if [ "$1" = "--use-vault" ]; then
     . $HERE/vault_auth.sh
 fi
@@ -18,4 +24,3 @@ docker run -d \
     $REGISTRY/$NAME:$GIT_ID
 
 docker cp $HERE/.vault_secrets.ini naomi_bot:/app/vault_secrets.ini
-rm $HERE/.vault_secrets.ini
