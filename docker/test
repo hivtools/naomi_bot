@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -e
+HERE=$(dirname $0)
+. $HERE/common
+
+function cleanup {
+    echo "Cleaning up"
+    docker kill naomi_bot > /dev/null || true
+    docker rm naomi_bot > /dev/null || true
+}
+
+trap cleanup EXIT
+
+docker run -d \
+    -p 4568:80 \
+    --name naomi_bot \
+    $REGISTRY/$NAME:$GIT_ID
+
+set +e
+for attempt in $(seq 10); do
+    echo "Attempt $attempt"
+    RESPONSE=$(curl --silent http://localhost:4568)
+    if [ "$RESPONSE" == "Bot running" ]; then
+        echo "SUCCESS"
+        exit 0
+    fi
+    sleep 0.5
+done
+
+echo "FAIL"
+exit 1

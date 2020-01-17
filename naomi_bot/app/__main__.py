@@ -1,9 +1,8 @@
 import os
-
 import aiohttp
+import configparser
 
 from aiohttp import web
-
 from gidgethub import routing, sansio
 from gidgethub import aiohttp as gh_aiohttp
 from .update_branch import update_branch
@@ -16,9 +15,8 @@ routes = web.RouteTableDef()
 @router.register("pull_request", action="opened")
 async def new_pr_event(event, gh, *args, **kwargs):
   """ Whenever a PR is opening in naomi, open corresponding PR in hintr"""
-  # url = event.data["issue"]["comments_url"]
-  # Hardcode the URL eventually this will be hintr
-  repo_url = "/repos/r-ash/ws-install"
+
+  repo_url = "/repos/mrc-ide/hintr"
   naomi_branch = event.data["pull_request"]["head"]["ref"]
   print("Handling new PR for naomi branch " + naomi_branch)
   
@@ -40,6 +38,13 @@ async def new_pr_event(event, gh, *args, **kwargs):
     "base": "master"
   })
 
+  # Request review
+  await gh.post(new_pr["url"] + "/requested_reviewers", data = {
+    "reviewers": [
+      "r-ash"
+    ]
+  })
+
   # Post link to new PR in a comment
   await gh.post(event.data["pull_request"]["comments_url"], data = {
     "body": "Thanks. Corresponding hintr PR at " + new_pr["html_url"]
@@ -52,8 +57,10 @@ async def main(request):
   body = await request.read()
 
   # our authentication token and secret
-  secret = os.environ.get("GH_SECRET")
-  oauth_token = os.environ.get("GH_AUTH")
+  cfg = configparser.ConfigParser()
+  cfg.read("app/vault_secrets.ini")
+  secret = cfg.get("vault_secrets", "HINTR_SECRET")
+  oauth_token = cfg.get("vault_secrets", "GH_AUTH_TOKEN")
 
   # a representation of GitHub webhook event
   event = sansio.Event.from_http(request.headers, body, secret=secret)
@@ -71,15 +78,7 @@ async def main(request):
 @routes.get("/")
 async def test(request):
   # This GET endpoint isn't called by the bot, just using it for testing
-  oauth_token = os.environ.get("GH_AUTH")
-  async with aiohttp.ClientSession() as session:
-    gh = gh_aiohttp.GitHubAPI(session, "r-ash",
-                              oauth_token=oauth_token)
-    naomi_branch = "new-branch"
-    version_number = "0.0.50.1"
-    new_branch = "naomi-" + version_number
-    await update_branch(gh, "/repos/r-ash/ws-install", version_number, naomi_branch, new_branch)
-  return web.Response(status=200, text="Hello")
+  return web.Response(status=200, text="Bot running")
 
 
 if __name__ == "__main__":
