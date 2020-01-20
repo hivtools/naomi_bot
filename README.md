@@ -28,6 +28,14 @@ You may have to build first, if so
 
 `docker/build`
 
+## Deploying
+
+To deploy updated version: 
+* ssh to montagu `ssh montagu@support.montagu.dide.ic.ac.uk`
+* `cd naomi_bot`
+* Stop naomi_bot docker container
+* Run `./docker/run`
+
 ## Secrets
 
 This is using secrets stored on my local machine to run at the moment - we should move them into vault.
