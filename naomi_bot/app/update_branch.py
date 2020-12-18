@@ -46,17 +46,6 @@ async def update_branch(gh, repo_url, naomi_version, naomi_branch, hintr_new_bra
     "branch": hintr_new_branch
   })
 
-  # Update .travis.yml
-  travis = await gh.getitem(repo_url + "/contents/.travis.yml")
-  travis_text = text_from_base64(travis["content"])
-  new_travis = update_travis(travis_text, naomi_branch)
-  await gh.put(repo_url + "/contents/.travis.yml", data = {
-    "message": "Update naomi version in .travis.yml",
-    "content": text_to_base64(new_travis),
-    "sha": travis["sha"],
-    "branch": hintr_new_branch
-  })
-
   # Update docker build
   docker = await gh.getitem(repo_url + "/contents/docker/build")
   docker_text = text_from_base64(docker["content"])
