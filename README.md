@@ -25,19 +25,13 @@ You may have to build first, if so
 
 `docker/build`
 
-## Deployment
+## Deploying
 
-At the moment this is deployed on support to update ssh onto support
-
-`ssh montagu@support.montagu.dide.ic.ac.uk`
-
-Kill running image and run up a new one
-
-```
-cd naomi_bot
-docker kill naomi_bot
-./docker/run
-```
+To deploy updated version: 
+* ssh to montagu `ssh montagu@support.montagu.dide.ic.ac.uk`
+* `cd naomi_bot`
+* Stop naomi_bot docker container
+* Run `./docker/run`
 
 ## Tests
 

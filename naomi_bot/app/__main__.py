@@ -51,7 +51,7 @@ async def new_pr_event(event, gh, *args, **kwargs):
   })
 
 
-@routes.post("/")
+@routes.post("/naomi-bot/")
 async def main(request):
   # read the GitHub webhook payload
   body = await request.read()
@@ -75,7 +75,7 @@ async def main(request):
   # return a "Success"
   return web.Response(status=200)
   
-@routes.get("/")
+@routes.get("/naomi-bot/")
 async def test(request):
   # This GET endpoint isn't called by the bot, just using it for testing
   return web.Response(status=200, text="Bot running")

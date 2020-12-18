@@ -19,7 +19,7 @@ docker run -d \
 set +e
 for attempt in $(seq 10); do
     echo "Attempt $attempt"
-    RESPONSE=$(curl --silent http://localhost:4568)
+    RESPONSE=$(curl --silent http://localhost:4568/naomi-bot/)
     if [ "$RESPONSE" == "Bot running" ]; then
         echo "SUCCESS"
         exit 0
