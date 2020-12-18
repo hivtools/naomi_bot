@@ -16,6 +16,7 @@ fi
 ## create a tmp file and write secrets out 
 . $HERE/vault_secrets
 
+docker pull $TAG_BRANCH
 
 docker run -d \
     --restart=always \
