@@ -2,7 +2,6 @@ from gidgethub import InvalidField
 from .utils import text_from_base64
 from .utils import text_to_base64
 from .version import update_naomi_version
-from .version import update_travis
 from .version import update_docker_build
 
 async def update_branch(gh, repo_url, naomi_version, naomi_branch, hintr_new_branch):

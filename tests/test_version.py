@@ -46,35 +46,6 @@ def test_update_naomi_version():
   with pytest.raises(Exception):
     version.update_naomi_version(description_text, "0.0.48")
 
-def test_update_travis():
-  travis_text = """
-  language: R
-  sudo: false
-  r_github_packages:
-    - ropensci/jsonvalidate
-    - mrc-ide/naomi
-    - mrc-ide/rrq
-  """
-  assert version.update_travis(travis_text, "new-branch") == """
-  language: R
-  sudo: false
-  r_github_packages:
-    - ropensci/jsonvalidate
-    - mrc-ide/naomi@new-branch
-    - mrc-ide/rrq
-  """
-
-  # Failed to update version
-  with pytest.raises(Exception):
-    version.update_travis("""
-      language: R
-      sudo: false
-      r_github_packages:
-        - ropensci/jsonvalidate
-        - mrc-ide/naomi@new-branch
-        - mrc-ide/rrq
-    """, "new_branch")
-
 def test_update_docker_build():
   docker_text = """
   set -e
