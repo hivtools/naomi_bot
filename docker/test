@@ -3,6 +3,9 @@ set -e
 HERE=$(dirname $0)
 . $HERE/common
 
+# In case we switch agents between steps
+[ ! -z $(docker images -q $TAG_SHA) ] || docker pull $TAG_SHA
+
 function cleanup {
     echo "Cleaning up"
     docker kill naomi_bot > /dev/null || true
@@ -14,7 +17,7 @@ trap cleanup EXIT
 docker run -d \
     -p 4568:80 \
     --name naomi_bot \
-    $REGISTRY/$NAME:$GIT_ID
+    $TAG_SHA
 
 set +e
 for attempt in $(seq 10); do

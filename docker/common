@@ -1,10 +1,23 @@
 ## -*-sh-*-
+PACKAGE_ROOT=$(realpath $HERE/..)
+PACKAGE_NAME=naomi_bot
+PACKAGE_ORG=mrcide
+PACKAGE_VERSION=$(cat $PACKAGE_ROOT/DESCRIPTION | \
+                      grep '^Version:' | sed 's/^.*: *//')
 
-GIT_ID=$(git rev-parse --short=7 HEAD)
-GIT_BRANCH=$(git symbolic-ref --short HEAD)
+# Buildkite doesn't check out a full history from the remote (just the
+# single commit) so you end up with a detached head and git rev-parse
+# doesn't work
+if [ "$BUILDKITE" = "true" ]; then
+    GIT_SHA=${BUILDKITE_COMMIT:0:7}
+else
+    GIT_SHA=$(git -C "$PACKAGE_ROOT" rev-parse --short=7 HEAD)
+fi
+if [ "$BUILDKITE" = "true" ]; then
+    GIT_BRANCH=$BUILDKITE_BRANCH
+else
+    GIT_BRANCH=$(git -C "$PACKAGE_ROOT" symbolic-ref --short HEAD)
+fi
 
-REGISTRY=docker.montagu.dide.ic.ac.uk:5000
-NAME=naomi_bot
-
-COMMIT_TAG=$REGISTRY/$NAME:$GIT_ID
-BRANCH_TAG=$REGISTRY/$NAME:$GIT_BRANCH
+TAG_SHA="${PACKAGE_ORG}/${PACKAGE_NAME}:${GIT_SHA}"
+TAG_BRANCH="${PACKAGE_ORG}/${PACKAGE_NAME}:${GIT_BRANCH}"
