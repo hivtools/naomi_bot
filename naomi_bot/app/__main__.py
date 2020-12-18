@@ -78,7 +78,7 @@ async def main(request):
 @routes.get("/naomi-bot/")
 async def test(request):
   # This GET endpoint isn't called by the bot, just using it for testing
-  print("Testing")
+  print("Test endoint running")
   return web.Response(status=200, text="Bot running")
 
 
