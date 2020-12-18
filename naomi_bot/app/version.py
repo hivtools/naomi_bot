@@ -15,14 +15,6 @@ def update_naomi_version(text, naomi_version):
   else:
     return(updated_text)
 
-def update_travis(text, naomi_branch):
-  updated_text = re.sub(r'(\s*- mrc-ide/naomi)\n', r'\g<1>@' + naomi_branch + r'\n', text)
-  if updated_text == text:
-    raise Exception("Failed to update naomi branch in text to " + naomi_branch +
-      " either can't find in file or branch is same as what trying to update to")
-  else:
-    return(updated_text)
-
 def update_docker_build(text, naomi_branch):
   updated_text = re.sub(r'(\s*git clone) (https://github.com/mrc-ide/naomi)', r'\g<1> --single-branch --branch ' + naomi_branch + r' \g<2>', text)
   if updated_text == text:

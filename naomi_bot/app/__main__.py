@@ -59,7 +59,7 @@ async def main(request):
   # our authentication token and secret
   cfg = configparser.ConfigParser()
   cfg.read("app/vault_secrets.ini")
-  secret = cfg.get("vault_secrets", "HINTR_SECRET")
+  secret = cfg.get("vault_secrets", "WEBHOOK_SECRET")
   oauth_token = cfg.get("vault_secrets", "GH_AUTH_TOKEN")
 
   # a representation of GitHub webhook event
@@ -78,6 +78,7 @@ async def main(request):
 @routes.get("/naomi-bot/")
 async def test(request):
   # This GET endpoint isn't called by the bot, just using it for testing
+  print("Test endoint running")
   return web.Response(status=200, text="Bot running")
 
 

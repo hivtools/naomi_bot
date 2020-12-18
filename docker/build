@@ -3,9 +3,13 @@ set -e
 HERE=$(dirname $0)
 . $HERE/common
 
+pip3 install --quiet --upgrade pip
 pip3 install --quiet -r requirements.txt
 python3 -m pytest
 
-docker build -t $COMMIT_TAG -t $BRANCH_TAG -f docker/Dockerfile .
-docker push $COMMIT_TAG
-docker push $BRANCH_TAG
+docker build --pull \
+       -t $TAG_SHA \
+       -f docker/Dockerfile \
+       $PACKAGE_ROOT
+
+docker push $TAG_SHA

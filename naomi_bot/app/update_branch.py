@@ -2,7 +2,6 @@ from gidgethub import InvalidField
 from .utils import text_from_base64
 from .utils import text_to_base64
 from .version import update_naomi_version
-from .version import update_travis
 from .version import update_docker_build
 
 async def update_branch(gh, repo_url, naomi_version, naomi_branch, hintr_new_branch):
@@ -43,17 +42,6 @@ async def update_branch(gh, repo_url, naomi_version, naomi_branch, hintr_new_bra
     "message": "Update naomi version in DESCRIPTION",
     "content": text_to_base64(new_desc),
     "sha": description["sha"],
-    "branch": hintr_new_branch
-  })
-
-  # Update .travis.yml
-  travis = await gh.getitem(repo_url + "/contents/.travis.yml")
-  travis_text = text_from_base64(travis["content"])
-  new_travis = update_travis(travis_text, naomi_branch)
-  await gh.put(repo_url + "/contents/.travis.yml", data = {
-    "message": "Update naomi version in .travis.yml",
-    "content": text_to_base64(new_travis),
-    "sha": travis["sha"],
     "branch": hintr_new_branch
   })
 
