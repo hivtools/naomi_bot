@@ -59,7 +59,7 @@ async def main(request):
   # our authentication token and secret
   cfg = configparser.ConfigParser()
   cfg.read("app/vault_secrets.ini")
-  secret = cfg.get("vault_secrets", "HINTR_SECRET")
+  secret = cfg.get("vault_secrets", "WEBHOOK_SECRET")
   oauth_token = cfg.get("vault_secrets", "GH_AUTH_TOKEN")
 
   # a representation of GitHub webhook event
