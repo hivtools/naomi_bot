@@ -21,6 +21,6 @@ docker run -d \
     --restart=always \
     -p 4568:80 \
     --name naomi_bot \
-    $REGISTRY/$NAME:$GIT_ID
+    $TAG_BRANCH
 
 docker cp $HERE/.vault_secrets.ini naomi_bot:/app/vault_secrets.ini
