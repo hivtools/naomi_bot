@@ -67,7 +67,7 @@ async def main(request):
   event = sansio.Event.from_http(request.headers, body, secret=secret)
 
   async with aiohttp.ClientSession() as session:
-    gh = gh_aiohttp.GitHubAPI(session, "r-ash",
+    gh = gh_aiohttp.GitHubAPI(session, "vimc-robot",
                               oauth_token=oauth_token)
 
     # call the appropriate callback for the event
