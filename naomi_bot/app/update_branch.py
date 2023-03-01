@@ -34,7 +34,7 @@ async def update_branch(gh, repo_url, naomi_version, naomi_branch, hintr_new_bra
   
 
   ## Make code change
-  # Update DESCRIPTION - naomi and hintr version?
+  # Update DESCRIPTION - naomi version
   description = await gh.getitem(repo_url + "/contents/DESCRIPTION")
   desc_text = text_from_base64(description["content"])
   new_desc = update_naomi_version(desc_text, naomi_version)

@@ -3,3 +3,4 @@ __pycache__
 *env
 naomi_bot.egg-info/
 docker/.vault_secrets.ini
+.idea/

@@ -3,7 +3,7 @@
 A bot for creating hintr PRs from naomi PRs
 
 When there is a new PR in naomi https://github.com/mrc-ide/naomi which updates the version number this bot will:
-  * Create a new branch in hintr https://github.com/mrc-ide/hintr called naomi-<version_number>
+  * Create a new branch in hintr https://github.com/mrc-ide/hintr called naomi-<branch_name>
   * Update the version of naomi in the `DESCRIPTION`
   * Pin the docker build script to the head branch of the naomi PR
   * Create a PR for the new branch into master
