@@ -6,6 +6,7 @@ from aiohttp import web
 from gidgethub import routing, sansio
 from gidgethub import aiohttp as gh_aiohttp
 from .update_branch import update_branch
+from .update_branch import remove_pin
 from .version import get_version_number
 from .utils import text_from_base64
 
@@ -20,7 +21,7 @@ async def new_pr_event(event, gh, *args, **kwargs):
   naomi_branch = event.data["pull_request"]["head"]["ref"]
   print("Handling new PR for naomi branch " + naomi_branch)
 
-  new_branch = "naomi-" + naomi_branch
+  new_branch = get_hintr_branch(naomi_branch)
   
   description = await gh.getitem(event.data["pull_request"]["head"]["repo"]["url"] + 
     "/contents/DESCRIPTION" + "?ref=" + naomi_branch
@@ -51,6 +52,26 @@ async def new_pr_event(event, gh, *args, **kwargs):
     "body": "Thanks. Corresponding hintr PR at " + new_pr["html_url"]
   })
 
+
+@router.register("pull_request", action="closed")
+async def pr_close_event(event, gh, *args, **kwargs):
+  """ Whenever a PR is closed in naomi, if it was merged remove the branch pin from the corresponding hintr PR"""
+
+  repo_url = "/repos/mrc-ide/hintr"
+  naomi_branch = event.data["pull_request"]["head"]["ref"]
+  print("Handling PR closed for naomi branch " + naomi_branch)
+
+  hintr_branch = get_hintr_branch(naomi_branch)
+
+  if not event.data["pull_request"]["merged"]:
+    print("Naomi PR " + naomi_branch + " was closed but not merged. Taking no further action.")
+    return
+
+  await remove_pin(gh, repo_url, hintr_branch)
+
+
+def get_hintr_branch(naomi_branch):
+  "naomi-" + naomi_branch
 
 @routes.post("/naomi-bot/")
 async def main(request):

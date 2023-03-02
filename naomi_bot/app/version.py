@@ -22,3 +22,10 @@ def update_docker_build(text, naomi_branch):
       " either can't find in file or branch is same as what trying to update to")
   else:
     return(updated_text)
+
+def remove_branch_pin(text):
+  updated_text = re.sub(r'git clone --single-branch --branch (.+) https://github.com/mrc-ide/naomi', r'git clone https://github.com/mrc-ide/naomi', text)
+  if updated_text == text:
+    raise Exception("Failed to remove branch pin either can't find in file or branch pin")
+  else:
+    return(updated_text)

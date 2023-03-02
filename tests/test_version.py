@@ -77,3 +77,20 @@ def test_update_docker_build():
 
     docker build --pull .
     """, "new-branch")
+
+def test_remove_branch_pin():
+  docker_text = """
+  set -e
+  HERE=$(dirname $0)
+  . $HERE/common
+
+  git clone https://github.com/mrc-ide/naomi
+
+  docker build --pull .
+  """
+
+  text = version.update_docker_build(docker_text, "new-branch")
+  assert version.remove_branch_pin(text) == docker_text
+
+  with pytest.raises(Exception):
+    version.remove_branch_pin(docker_text)
