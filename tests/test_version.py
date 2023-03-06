@@ -2,22 +2,24 @@ import pytest
 
 from naomi_bot.app import version
 
+
 def test_get_version_number():
-  description_text = """
+    description_text = """
   Package: naomi
   Title: Naomi model for subnational HIV estimates
   Version: 0.0.49
   Authors@R:
 
   """
-  assert version.get_version_number(description_text) == "0.0.49"
+    assert version.get_version_number(description_text) == "0.0.49"
 
-  # Missing version
-  with pytest.raises(Exception):
-    version.get_version_number("test")
+    # Missing version
+    with pytest.raises(Exception):
+        version.get_version_number("test")
+
 
 def test_update_naomi_version():
-  description_text = """
+    description_text = """
   Package: naomi
   Title: Naomi model for subnational HIV estimates
   Version: 0.0.49
@@ -29,7 +31,7 @@ def test_update_naomi_version():
       naomi (>= 0.0.48),
       plumber
   """
-  assert version.update_naomi_version(description_text, "0.0.49") == """
+    assert version.update_naomi_version(description_text, "0.0.49") == """
   Package: naomi
   Title: Naomi model for subnational HIV estimates
   Version: 0.0.49
@@ -42,12 +44,13 @@ def test_update_naomi_version():
       plumber
   """
 
-  # Failed to update version
-  with pytest.raises(Exception):
-    version.update_naomi_version(description_text, "0.0.48")
+    # Failed to update version
+    with pytest.raises(Exception):
+        version.update_naomi_version(description_text, "0.0.48")
+
 
 def test_update_docker_build():
-  docker_text = """
+    docker_text = """
   set -e
   HERE=$(dirname $0)
   . $HERE/common
@@ -57,7 +60,7 @@ def test_update_docker_build():
   docker build --pull .
   """
 
-  assert version.update_docker_build(docker_text, "new-branch") == """
+    assert version.update_docker_build(docker_text, "new-branch") == """
   set -e
   HERE=$(dirname $0)
   . $HERE/common
@@ -67,8 +70,8 @@ def test_update_docker_build():
   docker build --pull .
   """
 
-  with pytest.raises(Exception):
-    version.update_docker_build("""
+    with pytest.raises(Exception):
+        version.update_docker_build("""
     set -e
     HERE=$(dirname $0)
     . $HERE/common
@@ -78,8 +81,9 @@ def test_update_docker_build():
     docker build --pull .
     """, "new-branch")
 
+
 def test_remove_branch_pin():
-  docker_text = """
+    docker_text = """
   set -e
   HERE=$(dirname $0)
   . $HERE/common
@@ -90,8 +94,8 @@ def test_remove_branch_pin():
   docker build --pull .
   """
 
-  text = version.update_docker_build(docker_text, "new-branch")
-  assert version.remove_branch_pin(text) == docker_text
+    text = version.update_docker_build(docker_text, "new-branch")
+    assert version.remove_branch_pin(text) == docker_text
 
-  with pytest.raises(Exception):
-    version.remove_branch_pin(docker_text)
+    with pytest.raises(Exception):
+        version.remove_branch_pin(docker_text)
