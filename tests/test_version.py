@@ -84,6 +84,7 @@ def test_remove_branch_pin():
   HERE=$(dirname $0)
   . $HERE/common
 
+  rm -rf naomi
   git clone https://github.com/mrc-ide/naomi
 
   docker build --pull .

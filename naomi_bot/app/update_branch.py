@@ -58,7 +58,7 @@ async def update_branch(gh, repo_url, naomi_version, naomi_branch, hintr_new_bra
   })
 
 async def remove_pin(gh, repo_url, hintr_branch):
-  docker = await gh.getitem(repo_url + "/contents/docker/build")
+  docker = await gh.getitem(repo_url + "/contents/docker/build?ref=refs/heads/" + hintr_branch)
   docker_text = text_from_base64(docker["content"])
   new_docker = remove_branch_pin(docker_text)
   await gh.put(repo_url + "/contents/docker/build", data={
