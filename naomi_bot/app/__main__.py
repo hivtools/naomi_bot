@@ -71,7 +71,7 @@ async def pr_close_event(event, gh, *args, **kwargs):
 
 
 def get_hintr_branch(naomi_branch):
-  "naomi-" + naomi_branch
+  return "naomi-" + naomi_branch
 
 @routes.post("/naomi-bot/")
 async def main(request):
